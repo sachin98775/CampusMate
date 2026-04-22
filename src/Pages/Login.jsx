@@ -57,18 +57,34 @@ try {
   console.log("API failed");
 }
 
-if (
-  response?.success ||
-  (role === "student" &&
-    rollNumber === "21283" &&
-    dob === "2005-07-17")
-) {
-  setMessage(`✅ ${role.charAt(0).toUpperCase() + role.slice(1)} Login Successful`);
+      if (
+        response?.success ||
+        (role === "student" &&
+          rollNumber === "21283" &&
+          dob === "2005-07-17")
+      ) {
+        // If the API failed but the hardcoded fallback was triggered, 
+        // ensure we have at least a dummy user object to prevent crashes
+        if (!response?.user && role === 'student' && rollNumber === '21283') {
+          response = {
+            ...response,
+            user: {
+              id: 'student-21283',
+              name: 'Demo Student',
+              roll_number: '21283',
+              class_id: '3',
+              role: 'student',
+              class_name: 'BCA 3A'
+            }
+          };
+        }
+
+        setMessage(`✅ ${role.charAt(0).toUpperCase() + role.slice(1)} Login Successful`);
         
         // Store user data in localStorage for dashboard use
-        if (role === 'teacher') {
+        if (role === 'teacher' && response?.user) {
           localStorage.setItem('teacherData', JSON.stringify(response.user));
-        } else if (role === 'student') {
+        } else if (role === 'student' && response?.user) {
           localStorage.setItem('userData', JSON.stringify(response.user));
         }
         
@@ -81,6 +97,9 @@ if (
             navigate("/dashboard");
           }
         }, 1000);
+      } else {
+        // Handle cases where response exists but is not success
+        setMessage(`❌ ${response?.message || 'Login failed'}`);
       }
      } catch (error) {
       setMessage(`❌ ${error.message || 'Login failed'}`);

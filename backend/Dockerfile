@@ -31,8 +31,12 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 # Run composer install ignoring strict platform requirement checks
 RUN composer install --no-dev --no-interaction --optimize-autoloader --ignore-platform-reqs
 
-# Expose port (Railway overrides this with $PORT but it's good practice)
+# Copy startup script that applies the $PORT env variable for Render
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+# Expose default port
 EXPOSE 80
 
-# Command to run (Foreground apache)
-CMD ["apache2-foreground"]
+# Use startup script so Apache listens on Render's dynamic $PORT
+CMD ["/usr/local/bin/docker-entrypoint.sh"]

@@ -1,7 +1,7 @@
 const STORAGE_KEYS = {
   teachers: 'campusmate_mock_teachers_v1',
   classes: 'campusmate_mock_classes_v2',
-  students: 'campusmate_mock_students_v1',
+  students: 'campusmate_mock_students_v1_fixed',
   attendance: 'campusmate_mock_attendance_v1',
 };
 
@@ -92,7 +92,16 @@ let mockStudents = loadFromStorage(STORAGE_KEYS.students, [
   { id: 'student-002', name: 'Bob Smith', roll_number: 'BCA002', dob: '2000-02-20', class_id: '1', role: 'student' },
   { id: 'student-003', name: 'Charlie Brown', roll_number: 'BCA003', dob: '2000-03-10', class_id: '1', role: 'student' },
   { id: 'student-004', name: 'Diana Prince', roll_number: 'BCA004', dob: '2000-04-05', class_id: '1', role: 'student' },
-  { id: 'student-005', name: 'Edward Norton', roll_number: 'BCA005', dob: '2000-05-12', class_id: '1', role: 'student' }
+  { id: 'student-005', name: 'Edward Norton', roll_number: 'BCA005', dob: '2000-05-12', class_id: '1', role: 'student' },
+  { 
+    id: 'student-21283', 
+    name: 'Demo Student', 
+    roll_number: '21283', 
+    dob: '2005-07-17', 
+    class_id: '3', 
+    role: 'student',
+    class_name: 'BCA 3A'
+  }
 ]);
 let mockAttendance = loadFromStorage(STORAGE_KEYS.attendance, []);
 let mockSubjects = [
